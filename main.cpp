@@ -42,47 +42,58 @@ void options(){
     std::cout << "5. View Current Positions\n";
     std::cout << "6. Subscribe to symbols\n";
     std::cout << "7. Stream orderbook updates for subscribed symbols\n";
-    std::cout << "q. Exit\n";
+    std::cout << "q. Exit\n\n\n";
 }
 
 void placeOrder(){
     Order params;
 
-    std::cout << "Enter instrument name: (press q to exit)";
+    std::cout << "Enter instrument name: (press q to exit) ";
     std::cin >> params.instrument_name;
     if(params.instrument_name == "q")
         return;
     std::cout << "\nEnter amount: ";
     std::cin >> params.amount;
-    std::cout << "\nEnter type: (limit or market)";
+    std::cout << "\nEnter type: (limit or market) ";
     std::cin >> params.type;
+    if(params.type == "limit"){
+        std::cout << "\nEnter price: ";
+        std::cin >> params.price;
+    }
     std::cout << "\nEnter label: ";
     std::cin >> params.label;
-    std::cout << "\nEnter side: (1 for buy/2 for sell)";
+    std::cout << "\nEnter side: (1 for buy/2 for sell) ";
     int side;
     std::cin >> side;
 
     std::cout << "\n\n\n";
 
-    wc.placeOrder(params, side, response);
+    if(wc.placeOrder(params, side) == ERRNO){
+        wc.auth(clientId, clientSecret);
+        client.setAccessToken(wc.getAccessToken());
+        wc.placeOrder(params, side);
+    }
 
-    std::cout << response << "\n\n\n";
+
+    std::cout << "\n\n\n";
 }
 
 void cancelOrder(){
     std::string orderId;
 
-    std::cout << "Enter Order ID: \n";
+    std::cout << "\nEnter Order ID: ";
     std::cin >> orderId;
 
-    if(wc.cancelOrder(orderId, response)==ERRNO){
+    std::cout << "\n\n\n";
+
+    if(wc.cancelOrder(orderId) == ERRNO){
         wc.auth(clientId, clientSecret);
         client.setAccessToken(wc.getAccessToken());
+        wc.cancelOrder(orderId);
     }
 
-    wc.cancelOrder(orderId, response);
 
-    std::cout << "Response: " << response << "\n";
+    std::cout << "\n\n\n";
 }
 
 void menu(){

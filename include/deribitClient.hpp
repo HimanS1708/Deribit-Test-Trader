@@ -3,6 +3,8 @@
 
 #include <iostream>
 
+#define MAX_ORDERS 100
+
 class DeribitClient{
 private:
     std::string clientId;
@@ -17,6 +19,7 @@ public:
     std::string getClientSecret();
 
     void setAccessToken(std::string access_token);
+
 };
 
 #endif

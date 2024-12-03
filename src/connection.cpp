@@ -95,7 +95,7 @@ std::string Connection::getAccessToken(){
     return this->access_token;
 }
 
-int Connection::placeOrder(Order params, int type, std::string response){
+int Connection::placeOrder(Order params, int type){
     if(tok->isExpired()){
         return ERRNO;
     }
@@ -112,6 +112,9 @@ int Connection::placeOrder(Order params, int type, std::string response){
     arguments["instrument_name"] = params.instrument_name;
     arguments["amount"] = params.amount;
     arguments["type"] = params.type;
+    if(params.type == "limit"){
+        arguments["price"] = params.price;
+    }
     arguments["label"] = params.label;
 
     json order = {
@@ -127,10 +130,23 @@ int Connection::placeOrder(Order params, int type, std::string response){
     return 0;
 }
 
-int Connection::cancelOrder(std::string orderId, std::string response){
+int Connection::cancelOrder(std::string orderId){
     if(tok->isExpired()){
         return ERRNO;
     }
+
+    json jId;
+    jId["order_id"] = orderId;
+
+    json cancel = {
+        {"jsonrpc", "2.0"},
+        {"id", 4214},
+        {"method", "private/cancel"},
+        {"params", jId}
+    };
+
+    std::cout << cancel.dump(2) << "\n";
+    send_message(cancel.dump());
     return 0;
 }
 
@@ -138,5 +154,7 @@ int Connection::modifyOrder(std::string orderId, double amount, double price, st
     if(tok->isExpired()){
         return ERRNO;
     }
+
+    
     return 0;
 }

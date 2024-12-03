@@ -63,8 +63,8 @@ public:
 
     std::string getAccessToken();
 
-    int placeOrder(Order params, int type, std::string response);
-    int cancelOrder(std::string orderId, std::string response);
+    int placeOrder(Order params, int type);
+    int cancelOrder(std::string orderId);
     int modifyOrder(std::string orderId, double amount, double price, std::string advanced);
 };
 
