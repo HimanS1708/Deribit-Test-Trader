@@ -4,10 +4,14 @@ void Token::setAccessToken(std::string accessToken){
     this->accessToken = accessToken;
 }
 
-void Token::setExpiryTime(std::chrono::system_clock::time_point expiryTime){
+void Token::setExpiryTime(std::time_t expiryTime){
     this->expiryTime = expiryTime;
 }
 
+std::time_t Token::getExpiryTime(){
+    return this->expiryTime;
+}
+
 bool Token::isExpired(){
-    return std::chrono::system_clock::now() >= this->expiryTime;
+    return std::time(NULL) >= this->expiryTime;
 }

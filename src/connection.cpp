@@ -15,7 +15,12 @@ void Connection::on_fail(connection_hdl hdl){
 
 void Connection::on_message(connection_hdl hdl, wsclient::message_ptr msg){
     json received_json = json::parse(msg->get_payload());
-    if(received_json.contains("params"))
+    if(received_json.contains("result") && received_json["result"].contains("access_token")){
+        tok->setAccessToken(received_json["result"]["access_token"]);
+        std::time_t t = received_json["result"]["expires_in"];
+        tok->setExpiryTime(t + std::time(NULL));
+    }
+    else
         std::cout << "\nReceived: " << received_json.dump(4) << "\n\n";
 }
 
@@ -34,6 +39,10 @@ std::shared_ptr<websocketpp::lib::asio::ssl::context> Connection::on_tls_init(co
     }
 
     return ctx;
+}
+
+void Connection::initializeToken(Token* tok){
+    this->tok = tok;
 }
 
 void Connection::connect(const std::string& uri){
@@ -84,4 +93,50 @@ void Connection::refreshToken(std::string clientId, std::string clientSecret){
 
 std::string Connection::getAccessToken(){
     return this->access_token;
+}
+
+int Connection::placeOrder(Order params, int type, std::string response){
+    if(tok->isExpired()){
+        return ERRNO;
+    }
+    
+    std::string action = "";
+    if(type == 1){
+        action = "buy";
+    }
+    else if(type == 2){
+        action = "sell";
+    }
+
+    json arguments;
+    arguments["instrument_name"] = params.instrument_name;
+    arguments["amount"] = params.amount;
+    arguments["type"] = params.type;
+    arguments["label"] = params.label;
+
+    json order = {
+        {"jsonrpc", "2.0"},
+        {"id", 5275},
+        {"method", "private/" + action},
+        {"params", arguments}
+    };
+
+    std::cout << order.dump(2) << "\n\n\n";
+    send_message(order.dump());
+
+    return 0;
+}
+
+int Connection::cancelOrder(std::string orderId, std::string response){
+    if(tok->isExpired()){
+        return ERRNO;
+    }
+    return 0;
+}
+
+int Connection::modifyOrder(std::string orderId, double amount, double price, std::string advanced){
+    if(tok->isExpired()){
+        return ERRNO;
+    }
+    return 0;
 }

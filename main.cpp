@@ -6,6 +6,7 @@
 #include <iostream>
 #include <fstream>
 #include <thread>
+#include <chrono>
 
 using json = nlohmann::json;
 
@@ -44,36 +45,28 @@ void options(){
     std::cout << "q. Exit\n";
 }
 
-void instruments(){
-    std::cout << "\nSelect an instrument:\n";
-    std::cout << "1. Spot\n";
-    std::cout << "2. Futures\n";
-    std::cout << "3. Options\n";
-    std::cout << "q. Exit\n";
-}
-
 void placeOrder(){
-    bool exit = 0;
-    while(!exit){
-        instruments();
+    Order params;
 
-        char type;
-        std::cin >> type;
-        switch(type){
-            case 'q':
-                exit = 1;
-                break;
-            case '1':
-                break;
-            case '2':
-                break;
-            case '3':
-                break;
-            default:
-                std::cout << "\n\nInvalid input!\n\nTry again...\n\n";
-                break;
-        }
-    }
+    std::cout << "Enter instrument name: (press q to exit)";
+    std::cin >> params.instrument_name;
+    if(params.instrument_name == "q")
+        return;
+    std::cout << "\nEnter amount: ";
+    std::cin >> params.amount;
+    std::cout << "\nEnter type: (limit or market)";
+    std::cin >> params.type;
+    std::cout << "\nEnter label: ";
+    std::cin >> params.label;
+    std::cout << "\nEnter side: (1 for buy/2 for sell)";
+    int side;
+    std::cin >> side;
+
+    std::cout << "\n\n\n";
+
+    wc.placeOrder(params, side, response);
+
+    std::cout << response << "\n\n\n";
 }
 
 void cancelOrder(){
@@ -82,12 +75,12 @@ void cancelOrder(){
     std::cout << "Enter Order ID: \n";
     std::cin >> orderId;
 
-    if(client.cancelOrder(orderId, response)==ERRNO){
+    if(wc.cancelOrder(orderId, response)==ERRNO){
         wc.auth(clientId, clientSecret);
         client.setAccessToken(wc.getAccessToken());
     }
 
-    client.cancelOrder(orderId, response);
+    wc.cancelOrder(orderId, response);
 
     std::cout << "Response: " << response << "\n";
 }
@@ -139,6 +132,8 @@ int main(){
         wc.connect(uri);
     });
     std::this_thread::sleep_for(std::chrono::seconds(2));
+    
+    wc.initializeToken(&tok);
 
     std::thread authThread([&]() {
         while (!done) {
@@ -150,7 +145,7 @@ int main(){
         }
     });
 
-    client = DeribitClient(clientId, clientSecret, wc.getAccessToken(), tok);
+    client = DeribitClient(clientId, clientSecret, wc.getAccessToken());
 
     menu();
 

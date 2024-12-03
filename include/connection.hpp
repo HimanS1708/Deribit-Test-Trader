@@ -1,6 +1,9 @@
 #ifndef CONNECTION_HPP
 #define CONNECTION_HPP
 
+#include "order.hpp"
+#include "token.hpp"
+
 #include <websocketpp/config/asio_client.hpp>
 #include <websocketpp/client.hpp>
 
@@ -9,6 +12,8 @@
 #include <nlohmann/json.hpp>
 
 #include <iostream>
+
+#define ERRNO 69
 
 using json = nlohmann::json;
 using websocketpp::connection_hdl;
@@ -30,6 +35,8 @@ private:
     void on_message(connection_hdl hdl, wsclient::message_ptr msg);
 
     std::string access_token;
+    
+    Token* tok;
 
 public:
     Connection(){
@@ -45,6 +52,8 @@ public:
         wsClient.set_message_handler(bind(&Connection::on_message, this, std::placeholders::_1, std::placeholders::_2));
     }
 
+    void initializeToken(Token* tok);
+
     void connect(const std::string& uri);
     void disconnect();
     void send_message(const std::string& message);
@@ -53,6 +62,10 @@ public:
     void refreshToken(std::string clientId, std::string clientSecret);
 
     std::string getAccessToken();
+
+    int placeOrder(Order params, int type, std::string response);
+    int cancelOrder(std::string orderId, std::string response);
+    int modifyOrder(std::string orderId, double amount, double price, std::string advanced);
 };
 
 #endif
