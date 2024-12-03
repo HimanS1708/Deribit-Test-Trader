@@ -13,10 +13,10 @@ void Connection::on_fail(connection_hdl hdl){
     std::cout << "Connection failed\n";
 }
 
-void Connection::on_message(connection_hdl hdl, client::message_ptr msg){
+void Connection::on_message(connection_hdl hdl, wsclient::message_ptr msg){
     json received_json = json::parse(msg->get_payload());
-
-    std::cout << "\nReceived: " << received_json.dump(4) << "\n\n";
+    if(received_json.contains("params"))
+        std::cout << "\nReceived: " << received_json.dump(4) << "\n\n";
 }
 
 std::shared_ptr<websocketpp::lib::asio::ssl::context> Connection::on_tls_init(connection_hdl hdl){
@@ -38,7 +38,7 @@ std::shared_ptr<websocketpp::lib::asio::ssl::context> Connection::on_tls_init(co
 
 void Connection::connect(const std::string& uri){
     websocketpp::lib::error_code ec;
-    client::connection_ptr con = wsClient.get_connection(uri, ec);
+    wsclient::connection_ptr con = wsClient.get_connection(uri, ec);
 
     if(ec){
         std::cout << "Could not create connection because: " << ec.message() << "\n";
@@ -51,4 +51,37 @@ void Connection::connect(const std::string& uri){
 
 void Connection::disconnect(){
     wsClient.stop();
+}
+
+void Connection::send_message(const std::string& message){
+    websocketpp::lib::error_code ec;
+    wsClient.send(this->hdl, message, websocketpp::frame::opcode::text, ec);
+
+    if(ec){
+        std::cout << "Send failed because: " << ec.message() << "\n";
+    }
+}
+
+void Connection::auth(std::string clientId, std::string clientSecret){
+    json authReq = {
+        {"jsonrpc", "2.0"},
+        {"id", 9929},
+        {"method", "public/auth"},
+        {"params", {
+            {"grant_type", "client_credentials"},
+            {
+            "client_id", clientId},
+            {"client_secret", clientSecret}
+        }}
+    };
+
+    send_message(authReq.dump());
+}
+
+void Connection::refreshToken(std::string clientId, std::string clientSecret){
+    Connection::auth(clientId, clientSecret);
+}
+
+std::string Connection::getAccessToken(){
+    return this->access_token;
 }

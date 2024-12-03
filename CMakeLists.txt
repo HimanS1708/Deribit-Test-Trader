@@ -21,6 +21,7 @@ set(SOURCES
     main.cpp
     src/connection.cpp
     src/deribitClient.cpp
+    src/token.cpp
 )
 
 # Add your executable (replace main.cpp with your source files)

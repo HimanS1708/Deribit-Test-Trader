@@ -13,11 +13,13 @@
 using json = nlohmann::json;
 using websocketpp::connection_hdl;
 
-typedef websocketpp::client<websocketpp::config::asio_tls_client> client;
+using namespace nlohmann::literals;
+
+typedef websocketpp::client<websocketpp::config::asio_tls_client> wsclient;
 
 class Connection{
 private:
-    client wsClient;
+    wsclient wsClient;
     websocketpp::connection_hdl hdl;
 
     std::shared_ptr<websocketpp::lib::asio::ssl::context> on_tls_init(connection_hdl hdl);
@@ -25,12 +27,14 @@ private:
     void on_open(connection_hdl hdl);
     void on_close(connection_hdl hdl);
     void on_fail(connection_hdl hdl);
-    void on_message(connection_hdl hdl, client::message_ptr msg);
+    void on_message(connection_hdl hdl, wsclient::message_ptr msg);
+
+    std::string access_token;
 
 public:
     Connection(){
-        wsClient.set_access_channels(websocketpp::log::alevel::all);
-        wsClient.clear_access_channels(websocketpp::log::alevel::frame_payload);
+        wsClient.clear_access_channels(websocketpp::log::alevel::all);
+        wsClient.set_access_channels(websocketpp::log::alevel::app);
         wsClient.init_asio();
 
         wsClient.set_tls_init_handler(bind(&Connection::on_tls_init, this, std::placeholders::_1));
@@ -43,6 +47,12 @@ public:
 
     void connect(const std::string& uri);
     void disconnect();
+    void send_message(const std::string& message);
+    void auth(std::string clientId, std::string clientSecret);
+
+    void refreshToken(std::string clientId, std::string clientSecret);
+
+    std::string getAccessToken();
 };
 
 #endif
