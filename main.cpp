@@ -138,6 +138,23 @@ void getOrderBook(){
     std::cout << "\n\n\n";
 }
 
+void viewCurrentPositions(){
+    std::string instrument_name;
+
+    std::cout << "\nEnter Instrument Name: ";
+    std::cin >> instrument_name;
+
+    std::cout << "\n\n\n";
+
+    if(wc.viewCurrentPositions(instrument_name) == ERRNO){
+        wc.auth(clientId, clientSecret);
+        client.setAccessToken(wc.getAccessToken());
+        wc.viewCurrentPositions(instrument_name);
+    }
+
+    std::cout << "\n\n\n";
+}
+
 void menu(){
     bool exit=0;
 
@@ -164,6 +181,7 @@ void menu(){
                 getOrderBook();
                 break;
             case '5':
+                viewCurrentPositions();
                 break;
             case '6':
                 break;

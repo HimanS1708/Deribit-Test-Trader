@@ -68,6 +68,8 @@ public:
     int modifyOrder(std::string orderId, double amount, double price);
 
     void getOrderBook(std::string instrument_name, int depth);
+
+    int viewCurrentPositions(std::string instrument_name);
 };
 
 #endif

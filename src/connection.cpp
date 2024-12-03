@@ -192,3 +192,22 @@ void Connection::getOrderBook(std::string instrument_name, int depth){
     std::cout << orderBook.dump(2) << "\n";
     send_message(orderBook.dump());
 }
+
+int Connection::viewCurrentPositions(std::string instrument_name){
+    if(tok->isExpired()){
+        return ERRNO;
+    }
+
+    json currentPositions = {
+        {"jsonrpc", "2.0"},
+        {"id", 404},
+        {"method", "private/get_position"},
+        {"params", {
+            {"instrument_name", instrument_name}
+        }}
+    };
+
+    std::cout << currentPositions.dump(2) << "\n";
+    send_message(currentPositions.dump());
+    return 0;
+}
