@@ -96,6 +96,31 @@ void cancelOrder(){
     std::cout << "\n\n\n";
 }
 
+void modifyOrder(){
+    std::string orderId;
+    double amount;
+    double price;
+
+    std::cout << "\nEnter Order ID: ";
+    std::cin >> orderId;
+
+    std::cout << "\nEnter amount: ";
+    std::cin >> amount;
+
+    std::cout << "\nEnter price: ";
+    std::cin >> price;
+    
+    std::cout << "\n\n\n";
+
+    if(wc.modifyOrder(orderId, amount, price) == ERRNO){
+        wc.auth(clientId, clientSecret);
+        client.setAccessToken(wc.getAccessToken());
+        wc.modifyOrder(orderId, amount, price);
+    }
+
+    std::cout << "\n\n\n";
+}
+
 void menu(){
     bool exit=0;
 
@@ -116,6 +141,7 @@ void menu(){
                 cancelOrder();
                 break;
             case '3':
+                modifyOrder();
                 break;
             case '4':
                 break;

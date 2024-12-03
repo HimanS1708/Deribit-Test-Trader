@@ -150,11 +150,30 @@ int Connection::cancelOrder(std::string orderId){
     return 0;
 }
 
-int Connection::modifyOrder(std::string orderId, double amount, double price, std::string advanced){
+int Connection::modifyOrder(std::string orderId, double amount, double price){
     if(tok->isExpired()){
         return ERRNO;
     }
 
-    
+    json arguments;
+    arguments["order_id"] = orderId;
+
+    if(amount != -1){
+        arguments["amount"] = amount;
+    }
+
+    if(price != -1){
+        arguments["price"] = price;
+    }
+
+    json modify = {
+        {"jsonrpc", "2.0"},
+        {"id", 3725},
+        {"method", "private/edit"},
+        {"params", arguments}
+    };
+
+    std::cout << modify.dump(2) << "\n";
+    send_message(modify.dump());
     return 0;
 }

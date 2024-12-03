@@ -65,7 +65,7 @@ public:
 
     int placeOrder(Order params, int type);
     int cancelOrder(std::string orderId);
-    int modifyOrder(std::string orderId, double amount, double price, std::string advanced);
+    int modifyOrder(std::string orderId, double amount, double price);
 };
 
 #endif
