@@ -121,6 +121,23 @@ void modifyOrder(){
     std::cout << "\n\n\n";
 }
 
+void getOrderBook(){
+    std::string instrument_name;
+    int depth;
+
+    std::cout << "\nEnter Instrument Name: ";
+    std::cin >> instrument_name;
+
+    std::cout << "\nEnter depth: ";
+    std::cin >> depth;
+
+    std::cout << "\n\n\n";
+
+    wc.getOrderBook(instrument_name, depth);
+
+    std::cout << "\n\n\n";
+}
+
 void menu(){
     bool exit=0;
 
@@ -144,6 +161,7 @@ void menu(){
                 modifyOrder();
                 break;
             case '4':
+                getOrderBook();
                 break;
             case '5':
                 break;

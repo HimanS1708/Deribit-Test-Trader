@@ -66,6 +66,8 @@ public:
     int placeOrder(Order params, int type);
     int cancelOrder(std::string orderId);
     int modifyOrder(std::string orderId, double amount, double price);
+
+    void getOrderBook(std::string instrument_name, int depth);
 };
 
 #endif

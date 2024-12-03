@@ -177,3 +177,18 @@ int Connection::modifyOrder(std::string orderId, double amount, double price){
     send_message(modify.dump());
     return 0;
 }
+
+void Connection::getOrderBook(std::string instrument_name, int depth){
+    json orderBook = {
+        {"jsonrpc", "2.0"},
+        {"id", 8772},
+        {"method", "public/get_order_book"},
+        {"params", {
+            {"instrument_name", instrument_name},
+            {"depth", depth}
+        }}
+    };
+
+    std::cout << orderBook.dump(2) << "\n";
+    send_message(orderBook.dump());
+}
