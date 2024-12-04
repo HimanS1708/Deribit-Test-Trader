@@ -11,12 +11,4 @@ struct Order{
     std::string label;
 };
 
-// struct ClientOrders{
-//     std::string instrument_name;
-//     std::string order_id;
-//     std::string label;
-//     double amount;
-//     double price;
-// };
-
 #endif
