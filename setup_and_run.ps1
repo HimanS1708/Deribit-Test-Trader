@@ -27,13 +27,6 @@ if (Test-Path "build") {
     Remove-Item -Path "build" -Recurse -Force
 }
 
-@"
-{
-    "client_id": "",
-    "client_secret": ""
-}
-"@ | Out-File -FilePath "api_keys.json" -Encoding UTF8
-
 mkdir build
 cd build
 
