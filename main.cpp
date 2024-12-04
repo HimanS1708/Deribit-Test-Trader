@@ -194,21 +194,27 @@ void menu(){
                 break;
             case '1':
                 placeOrder();
+                std::this_thread::sleep_for(std::chrono::seconds(1));
                 break;
             case '2':
                 cancelOrder();
+                std::this_thread::sleep_for(std::chrono::seconds(1));
                 break;
             case '3':
                 modifyOrder();
+                std::this_thread::sleep_for(std::chrono::seconds(1));
                 break;
             case '4':
                 getOrderBook();
+                std::this_thread::sleep_for(std::chrono::seconds(1));
                 break;
             case '5':
                 viewCurrentPositions();
+                std::this_thread::sleep_for(std::chrono::seconds(1));
                 break;
             case '6':
                 subscribe();
+                std::cout << "Successfully subscribed!\n\n";
                 break;
             case '7':
                 streamSubscriptions();

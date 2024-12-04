@@ -39,6 +39,15 @@ void Connection::on_message(connection_hdl hdl, wsclient::message_ptr msg){
             send_message(unsubscribe.dump());
         }
     }
+    else if(received_json.contains("id") && received_json["id"] == 5275){
+        std::cout << "Order placed for " << received_json["result"]["order"]["instrument_name"] << " at price " << received_json["result"]["order"]["price"] << " (Order Id: " << received_json["result"]["order"]["order_id"] << ")\n\n";
+    }
+    else if(received_json.contains("id") && received_json["id"] == 4214){
+        std::cout << "Order for " << received_json["result"]["instrument_name"] << " cancelled.\n\n";
+    }
+    else if(received_json.contains("id") && received_json["id"] == 3725){
+        std::cout << "Order placed for " << received_json["result"]["order"]["instrument_name"] << " at price " << received_json["result"]["order"]["price"] << " and amount " << received_json["result"]["order"]["amount"] << "\n\n";
+    }
     else if(received_json.contains("id") && received_json["id"] != 154)
         std::cout << received_json.dump(2) << "\n";
 }
@@ -142,8 +151,6 @@ int Connection::placeOrder(Order params, int type){
         {"method", "private/" + action},
         {"params", arguments}
     };
-
-    std::cout << order.dump(2) << "\n\n\n";
     send_message(order.dump());
 
     return 0;
@@ -163,8 +170,6 @@ int Connection::cancelOrder(std::string orderId){
         {"method", "private/cancel"},
         {"params", jId}
     };
-
-    std::cout << cancel.dump(2) << "\n";
     send_message(cancel.dump());
     return 0;
 }
@@ -191,8 +196,6 @@ int Connection::modifyOrder(std::string orderId, double amount, double price){
         {"method", "private/edit"},
         {"params", arguments}
     };
-
-    std::cout << modify.dump(2) << "\n";
     send_message(modify.dump());
     return 0;
 }
@@ -207,8 +210,6 @@ void Connection::getOrderBook(std::string instrument_name, int depth){
             {"depth", depth}
         }}
     };
-
-    std::cout << orderBook.dump(2) << "\n";
     send_message(orderBook.dump());
 }
 
@@ -225,8 +226,6 @@ int Connection::viewCurrentPositions(std::string instrument_name){
             {"instrument_name", instrument_name}
         }}
     };
-
-    std::cout << currentPositions.dump(2) << "\n";
     send_message(currentPositions.dump());
     return 0;
 }
@@ -247,8 +246,6 @@ int Connection::streamSubscriptions(std::vector<std::string> connections){
         }}
     };
     isStreaming = true;
-
-    std::cout << subscribe.dump(2) << "\n";
     send_message(subscribe.dump());
     while(isStreaming);
     return 0;
