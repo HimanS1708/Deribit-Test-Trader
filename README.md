@@ -16,6 +16,7 @@ A C++ application for automated trading on the Deribit cryptocurrency exchange's
 
 - CMake (3.31.1 or higher)
 - MinGW-w64 with GCC (13 or higher)
+- Visual Studio 2022 or higher
 - PowerShell
 
 ## Required libraries (automatically installed via vcpkg)
