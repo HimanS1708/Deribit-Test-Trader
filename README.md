@@ -31,7 +31,7 @@ A C++ application for automated trading on the Deribit cryptocurrency exchange's
 
     ```
     git clone "https://github.com/HimanS1708/Deribit-Test-Trader.git"
-    cd Deribit-Test-Trader
+    cd Deribit-Test-Trader-main
     ```
 
 2. Create a file for API keys named api_keys.json.
