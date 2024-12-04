@@ -12,7 +12,7 @@ A C++ application for automated trading on the Deribit cryptocurrency exchange's
 - Subscribe to and stream real-time price index updates
 - Clean command-line interface
 
-## Prerequisites
+## Pre-requisites
 
 - CMake (3.31.1 or higher)
 - MinGW-w64 with GCC (13 or higher)
@@ -70,3 +70,7 @@ A C++ application for automated trading on the Deribit cryptocurrency exchange's
 - CMakeLists.txt - CMake build configuration
 - setup_and_run.ps1 - Initial setup and run script
 - run.ps1 - Build and run script for subsequent uses
+
+## Additional Details
+
+To [test](https://github.com/HimanS1708/Deribit-Test-Trader/tree/main/tests) the project you can use a pre-built script which benchmarks each functionality.
