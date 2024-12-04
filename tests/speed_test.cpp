@@ -72,6 +72,8 @@ int main(){
 
     client = DeribitClient(clientId, clientSecret, wc.getAccessToken());
 
+    std::string orderId;
+
     std::this_thread::sleep_for(std::chrono::seconds(1));
 
     std::cout << "Place Order benchmarks: \n\n";
@@ -89,8 +91,6 @@ int main(){
 
     std::cout << "Modify Order benchmarks: \n";
     {
-        std::string orderId;
-
         std::cout << "Enter Order ID: \n\n";
         std::cin >> orderId;
 
@@ -101,11 +101,6 @@ int main(){
 
     std::cout << "Cancel Order benchmarks: \n";
     {
-        std::string orderId;
-
-        std::cout << "Enter Order ID: \n\n";
-        std::cin >> orderId;
-
         Timer timer;
         wc.cancelOrder(orderId);
     }
