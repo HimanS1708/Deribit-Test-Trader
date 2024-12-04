@@ -12,7 +12,6 @@ using json = nlohmann::json;
 
 std::string clientId = "";
 std::string clientSecret = "";
-std::string response = "";
 
 DeribitClient client;
 Connection wc;
@@ -254,9 +253,9 @@ int main(){
 
     menu();
 
-    std::this_thread::sleep_for(std::chrono::seconds(2));
+    std::this_thread::sleep_for(std::chrono::seconds(1));
     wc.disconnect();
-    std::this_thread::sleep_for(std::chrono::seconds(2));
+    std::this_thread::sleep_for(std::chrono::seconds(1));
 
     authThread.join();
     connectionThread.join();

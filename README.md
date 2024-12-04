@@ -65,6 +65,7 @@ A C++ application for automated trading on the Deribit cryptocurrency exchange's
 
 - include/ - Header files
 - src/ - Source files
+- test/ - Benchmark tests
 - main.cpp - Main application entry point
 - CMakeLists.txt - CMake build configuration
 - setup_and_run.ps1 - Initial setup and run script
