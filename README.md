@@ -34,18 +34,19 @@ A C++ application for automated trading on the Deribit cryptocurrency exchange's
     cd Deribit-Test-Trader
     ```
 
-2. Configure your API keys: 
+2. Create a file for API keys named api_keys.json.
+
+3. Configure your API keys: 
 
     In the file *api_keys.json*, update the fields.
-
+    ```json
     {
-
         "clientId": "your_client_id",
         "clientSecret": "your_client_secret"
-
     }
+    ```
 
-3. Build and run:
+4. Build and run:
 
     When running for the first time, run using:
 
