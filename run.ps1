@@ -10,6 +10,8 @@ mingw32-make
 
 Copy-Item "../api_keys.json" -Destination "."
 
+Clear-Host
+
 ./DeribitTestTrader
 
 cd ..

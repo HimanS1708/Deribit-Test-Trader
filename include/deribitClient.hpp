@@ -2,14 +2,14 @@
 #define CLIENT_HPP
 
 #include <iostream>
-
-#define MAX_ORDERS 100
+#include <vector>
 
 class DeribitClient{
 private:
     std::string clientId;
     std::string clientSecret;
     std::string accessToken;
+    std::vector<std::string> subscriptions;
 
 public:
     DeribitClient() = default;
@@ -20,6 +20,8 @@ public:
 
     void setAccessToken(std::string access_token);
 
+    void addSubscriptions(std::vector<std::string> subscriptions);
+    std::vector<std::string> getSubscriptions();
 };
 
 #endif

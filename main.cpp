@@ -41,7 +41,7 @@ void options(){
     std::cout << "4. Get Order Book\n";
     std::cout << "5. View Current Positions\n";
     std::cout << "6. Subscribe to symbols\n";
-    std::cout << "7. Stream orderbook updates for subscribed symbols\n";
+    std::cout << "7. Stream subscribed symbols\n";
     std::cout << "q. Exit\n\n\n";
 }
 
@@ -155,6 +155,30 @@ void viewCurrentPositions(){
     std::cout << "\n\n\n";
 }
 
+void subscribe(){
+    int cnt;
+    std::cout << "\nEnter the number of channels: ";
+    std::cin >> cnt;
+
+    std::cout << "\nEnter index names:\n";
+    std::vector<std::string> subscriptions(cnt);
+    for(int i = 0; i < cnt; i++){
+        std::cin >> subscriptions[i];
+    }
+
+    client.addSubscriptions(subscriptions);
+
+    std::cout << "\n\n\n";
+}
+
+void streamSubscriptions(){
+    if(wc.streamSubscriptions(client.getSubscriptions()) == ERRNO){
+        wc.auth(clientId, clientSecret);
+        client.setAccessToken(wc.getAccessToken());
+        wc.streamSubscriptions(client.getSubscriptions());
+    }
+}
+
 void menu(){
     bool exit=0;
 
@@ -184,8 +208,10 @@ void menu(){
                 viewCurrentPositions();
                 break;
             case '6':
+                subscribe();
                 break;
             case '7':
+                streamSubscriptions();
                 break;
             default:
                 std::cout << "\n\nInvalid input!\n\nTry again...\n\n";

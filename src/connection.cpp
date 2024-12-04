@@ -20,8 +20,27 @@ void Connection::on_message(connection_hdl hdl, wsclient::message_ptr msg){
         std::time_t t = received_json["result"]["expires_in"];
         tok->setExpiryTime(t + std::time(NULL));
     }
-    else
-        std::cout << "\nReceived: " << received_json.dump(4) << "\n\n";
+    else if(received_json.contains("method") && received_json["method"] == "subscription" && isStreaming){
+        system("cls");
+        std::cout << "(Press q to stop)\n\n" << received_json.dump(2) << std::endl;
+        if(GetAsyncKeyState('Q') & 0x0001) {
+            system("cls");
+            FlushConsoleInputBuffer(GetStdHandle(STD_INPUT_HANDLE));
+            isStreaming = false;
+            json unsubscribe = {
+                {"jsonrpc", "2.0"},
+                {"id", 154},
+                {"method", "private/unsubscribe_all"},
+                {"params", {
+
+                }}
+            };
+
+            send_message(unsubscribe.dump());
+        }
+    }
+    else if(received_json.contains("id") && received_json["id"] != 154)
+        std::cout << received_json.dump(2) << "\n";
 }
 
 std::shared_ptr<websocketpp::lib::asio::ssl::context> Connection::on_tls_init(connection_hdl hdl){
@@ -209,5 +228,28 @@ int Connection::viewCurrentPositions(std::string instrument_name){
 
     std::cout << currentPositions.dump(2) << "\n";
     send_message(currentPositions.dump());
+    return 0;
+}
+
+int Connection::streamSubscriptions(std::vector<std::string> connections){
+    if(tok->isExpired()){
+        return ERRNO;
+    }
+
+    json subscriptions = connections;
+
+    json subscribe = {
+        {"jsonrpc", "2.0"},
+        {"id", 4235},
+        {"method", "private/subscribe"},
+        {"params", {
+            {"channels", subscriptions}
+        }}
+    };
+    isStreaming = true;
+
+    std::cout << subscribe.dump(2) << "\n";
+    send_message(subscribe.dump());
+    while(isStreaming);
     return 0;
 }

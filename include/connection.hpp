@@ -38,6 +38,8 @@ private:
     
     Token* tok;
 
+    bool isStreaming;
+
 public:
     Connection(){
         wsClient.clear_access_channels(websocketpp::log::alevel::all);
@@ -50,6 +52,8 @@ public:
         wsClient.set_close_handler(bind(&Connection::on_close, this, std::placeholders::_1));
         wsClient.set_fail_handler(bind(&Connection::on_fail, this, std::placeholders::_1));
         wsClient.set_message_handler(bind(&Connection::on_message, this, std::placeholders::_1, std::placeholders::_2));
+
+        isStreaming = false;
     }
 
     void initializeToken(Token* tok);
@@ -70,6 +74,8 @@ public:
     void getOrderBook(std::string instrument_name, int depth);
 
     int viewCurrentPositions(std::string instrument_name);
+
+    int streamSubscriptions(std::vector<std::string> connections);
 };
 
 #endif
