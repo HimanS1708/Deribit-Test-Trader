@@ -99,7 +99,7 @@ void Connection::send_message(const std::string& message){
     }
 }
 
-void Connection::auth(std::string clientId, std::string clientSecret){
+void Connection::auth(const std::string& clientId, const std::string& clientSecret){
     json authReq = {
         {"jsonrpc", "2.0"},
         {"id", 9929},
@@ -115,7 +115,7 @@ void Connection::auth(std::string clientId, std::string clientSecret){
     send_message(authReq.dump());
 }
 
-void Connection::refreshToken(std::string clientId, std::string clientSecret){
+void Connection::refreshToken(const std::string& clientId, const std::string& clientSecret){
     Connection::auth(clientId, clientSecret);
 }
 
@@ -123,7 +123,7 @@ std::string Connection::getAccessToken(){
     return this->access_token;
 }
 
-int Connection::placeOrder(Order params, int type){
+int Connection::placeOrder(const Order& params, const int& type){
     if(tok->isExpired()){
         return ERRNO;
     }
@@ -156,7 +156,7 @@ int Connection::placeOrder(Order params, int type){
     return 0;
 }
 
-int Connection::cancelOrder(std::string orderId){
+int Connection::cancelOrder(const std::string& orderId){
     if(tok->isExpired()){
         return ERRNO;
     }
@@ -174,7 +174,7 @@ int Connection::cancelOrder(std::string orderId){
     return 0;
 }
 
-int Connection::modifyOrder(std::string orderId, double amount, double price){
+int Connection::modifyOrder(const std::string& orderId, const double& amount, const double& price){
     if(tok->isExpired()){
         return ERRNO;
     }
@@ -200,7 +200,7 @@ int Connection::modifyOrder(std::string orderId, double amount, double price){
     return 0;
 }
 
-void Connection::getOrderBook(std::string instrument_name, int depth){
+void Connection::getOrderBook(const std::string& instrument_name, const int& depth){
     json orderBook = {
         {"jsonrpc", "2.0"},
         {"id", 8772},
@@ -213,7 +213,7 @@ void Connection::getOrderBook(std::string instrument_name, int depth){
     send_message(orderBook.dump());
 }
 
-int Connection::viewCurrentPositions(std::string instrument_name){
+int Connection::viewCurrentPositions(const std::string& instrument_name){
     if(tok->isExpired()){
         return ERRNO;
     }
@@ -230,7 +230,7 @@ int Connection::viewCurrentPositions(std::string instrument_name){
     return 0;
 }
 
-int Connection::streamSubscriptions(std::vector<std::string> connections){
+int Connection::streamSubscriptions(const std::vector<std::string>& connections){
     if(tok->isExpired()){
         return ERRNO;
     }

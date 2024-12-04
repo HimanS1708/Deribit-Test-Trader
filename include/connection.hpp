@@ -61,21 +61,21 @@ public:
     void connect(const std::string& uri);
     void disconnect();
     void send_message(const std::string& message);
-    void auth(std::string clientId, std::string clientSecret);
+    void auth(const std::string& clientId, const std::string& clientSecret);
 
-    void refreshToken(std::string clientId, std::string clientSecret);
+    void refreshToken(const std::string& clientId, const std::string& clientSecret);
 
     std::string getAccessToken();
 
-    int placeOrder(Order params, int type);
-    int cancelOrder(std::string orderId);
-    int modifyOrder(std::string orderId, double amount, double price);
+    int placeOrder(const Order& params, const int& type);
+    int cancelOrder(const std::string& orderId);
+    int modifyOrder(const std::string& orderId, const double& amount, const double& price);
 
-    void getOrderBook(std::string instrument_name, int depth);
+    void getOrderBook(const std::string& instrument_name, const int& depth);
 
-    int viewCurrentPositions(std::string instrument_name);
+    int viewCurrentPositions(const std::string& instrument_name);
 
-    int streamSubscriptions(std::vector<std::string> connections);
+    int streamSubscriptions(const std::vector<std::string>& connections);
 };
 
 #endif

@@ -1,10 +1,10 @@
 #include "../include/token.hpp"
 
-void Token::setAccessToken(std::string accessToken){
+void Token::setAccessToken(const std::string& accessToken){
     this->accessToken = accessToken;
 }
 
-void Token::setExpiryTime(std::time_t expiryTime){
+void Token::setExpiryTime(const std::time_t& expiryTime){
     this->expiryTime = expiryTime;
 }
 

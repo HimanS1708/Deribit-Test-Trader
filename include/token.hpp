@@ -10,8 +10,8 @@ private:
     std::time_t expiryTime;
 
 public:
-    void setAccessToken(std::string accessToken);
-    void setExpiryTime(std::time_t expiryTime);
+    void setAccessToken(const std::string& accessToken);
+    void setExpiryTime(const std::time_t& expiryTime);
 
     std::time_t getExpiryTime();
 
