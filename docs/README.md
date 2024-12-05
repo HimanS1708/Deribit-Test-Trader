@@ -3,12 +3,69 @@
 ## Overview
 Deribit Test Trader is a C++ application that interfaces with the Deribit cryptocurrency exchange API through WebSocket connections. It provides functionality for trading, order management, and market data streaming on the Deribit test network.
 
+## Features
+
+- Real-time WebSocket connection to Deribit testnet
+- Authentication and automatic token refresh
+- Place, modify and cancel orders
+- View order book data
+- Monitor current positions
+- Subscribe to and stream real-time price index updates
+- Clean command-line interface
+
+## Pre-requisites
+
+- CMake (3.31.1 or higher)
+- MinGW-w64 with GCC (13 or higher)
+- Visual Studio 2022 or higher
+- PowerShell
+
 ## Build and Setup
 
-The project uses CMake for build management and vcpkg for dependency management. Two PowerShell scripts are provided:
+1. Clone the repository:
 
-- `setup_and_run.ps1`: First-time setup and run
-- `run.ps1`: Subsequent builds and runs
+    ```
+    git clone "https://github.com/HimanS1708/Deribit-Test-Trader.git"
+    cd Deribit-Test-Trader
+    ```
+
+2. Create a file for API keys named api_keys.json.
+
+3. Configure your API keys: 
+
+    In the file *api_keys.json*, update the fields.
+    ```json
+    {
+        "clientId": "your_client_id",
+        "clientSecret": "your_client_secret"
+    }
+    ```
+
+4. Build and run:
+
+    This project uses CMake for build management and vcpkg for dependency management. When running for the first time, run using:
+
+    ```
+    .\setup_and_run.ps1
+    ```
+
+    Or for subsequent runs:
+
+    ```
+    .\run.ps1
+    ```
+
+## Project Structure
+
+**NOTE**: This is from the root directory of the project.
+
+- include/ - Header files
+- src/ - Source files
+- test/ - Benchmark tests
+- main.cpp - Main application entry point
+- CMakeLists.txt - CMake build configuration
+- setup_and_run.ps1 - Initial setup and run script
+- run.ps1 - Build and run script for subsequent uses
 
 ## API Integration
 
@@ -102,3 +159,7 @@ Wherever this Timer
 - Implement integration testing suite
 - Add stress testing capabilities
 - Create automated performance benchmarking
+
+## Demonstration Video
+
+The video can be found [here](https://youtu.be/Llt2qbUCxdE).

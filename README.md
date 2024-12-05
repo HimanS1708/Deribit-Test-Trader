@@ -76,3 +76,5 @@ A C++ application for automated trading on the Deribit cryptocurrency exchange's
 To [test](https://github.com/HimanS1708/Deribit-Test-Trader/tree/main/tests) the project you can use a pre-built script which benchmarks each functionality.
 
 The documentation for this project can be found [here](https://github.com/HimanS1708/Deribit-Test-Trader/tree/main/docs).
+
+The demonstration video can be found [here](https://youtu.be/Llt2qbUCxdE).
